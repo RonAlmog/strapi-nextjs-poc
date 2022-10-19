@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { Post } from "../src/Post";
+import Link from "next/link";
 
 interface IParams extends ParsedUrlQuery {
   slug: string;
@@ -17,7 +18,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   console.log("paths:", paths);
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -38,7 +39,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 const PostPage = ({ post }: any) => {
-  return <div>{post.attributes.title}</div>;
+  return (
+    <div>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      <h2>{post.attributes.title}</h2>
+    </div>
+  );
 };
 
 export default PostPage;

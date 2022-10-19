@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
+import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
@@ -22,11 +23,13 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
     <div>
       {posts &&
         posts.map((post: any) => (
-          <div key={post.id}>
-            <h2>{post.attributes.title}</h2>
-            <p>{post.attributes.slug}</p>
-            <p>{post.attributes.user.data.attributes.username}</p>
-          </div>
+          <Link href={`/${post.attributes.slug}`} key={post.id}>
+            <a>
+              <h2>{post.attributes.title}</h2>
+              <p>{post.attributes.slug}</p>
+              <p>{post.attributes.user.data.attributes.username}</p>
+            </a>
+          </Link>
         ))}
     </div>
   );
