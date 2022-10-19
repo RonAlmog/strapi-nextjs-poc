@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
-import { Post } from "./Post";
+import { Post } from "../src/Post";
 
 export const getStaticProps = async () => {
   console.log("im on serverz");
