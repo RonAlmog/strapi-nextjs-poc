@@ -1,7 +1,7 @@
 import React from "react";
 import { useSession, getSession, signIn, signOut } from "next-auth/react";
 import type { Session } from "next-auth";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 type Props = {};
 
@@ -25,9 +25,9 @@ const Protected2 = (props: Props) => {
 
 export default Protected2;
 
-export const getServerSideProps: GetServerSideProps<{
-  session: Session | null;
-}> = async (context) => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   const session = await getSession(context);
   if (!session) {
     return {
