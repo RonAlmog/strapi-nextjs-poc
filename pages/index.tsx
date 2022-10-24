@@ -1,7 +1,8 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Link from "next/link";
-import Head from "next/head";
 import Image from "next/image";
+import Head from "next/head";
+
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { Post } from "../src/Post";
@@ -19,17 +20,26 @@ export const getStaticProps = async () => {
 };
 
 const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log("im on the client");
   const { data: session, status } = useSession();
 
   if (session) {
+    console.log("user:", session);
     return (
       <div>
         <p>
           Welcome, {session.user?.name}, {session.user?.email}
         </p>
-        <img src={session.user?.image} alt={session.user?.name} />
+        <Image
+          src={session.user?.image}
+          alt={session.user?.name}
+          width={200}
+          height={200}
+        />
         <br />
+        <p>You can now access our secret page</p>
+        <button>
+          <Link href="/secret">Go to secret</Link>
+        </button>
         <button onClick={() => signOut()}>Sign out</button>
 
         <div>

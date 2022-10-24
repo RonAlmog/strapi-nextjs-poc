@@ -4,6 +4,9 @@ import FacebookProvider from "next-auth/providers/facebook";
 import EmailProvider from "next-auth/providers/email";
 import TwitterProvider from "next-auth/providers/twitter";
 import GithubProvider from "next-auth/providers/github";
+import { FirebaseAdapter } from "@next-auth/firebase-adapter";
+import { db } from "../../../firebase.config";
+import * as firestoreFunctions from "firebase/firestore";
 
 export const authOptions = {
   providers: [
@@ -11,17 +14,17 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    // EmailProvider({
-    //   server: {
-    //     host: "",
-    //     port: "",
-    //     auth: {
-    //       user: "",
-    //       pass: "",
-    //     },
-    //   },
-    //   from: "",
-    // }),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_SERVER_FROM,
+    }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID,
       clientSecret: process.env.FACEBOOK_SECRET,
@@ -37,6 +40,13 @@ export const authOptions = {
 
     // ... add more providers here
   ],
+  adapter: FirebaseAdapter({ db, ...firestoreFunctions }),
+  // adapter: FirebaseAdapter(db),
+  //   database: {
+  //     type: "sqlite",
+  //     database: ":memory:",
+  //     syncronize: true,
+  //   },
   // The secret should be set to a reasonably long random string.
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
   // a separate secret is defined explicitly for encrypting the JWT.
@@ -67,6 +77,12 @@ export const authOptions = {
     // if you want to override the default behaviour.
     // encode: async ({ secret, token, maxAge }) => {},
     // decode: async ({ secret, token, maxAge }) => {},
+  },
+  events: {
+    signIn: ({ user, account, profile, isNewUser }) => {
+      console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
+    },
+    // updateUser({ user })
   },
 };
 
