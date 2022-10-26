@@ -120,10 +120,10 @@ export const authOptions: NextAuthOptions = {
   },
   // your own custom pages: login, logout, error, etc.
   pages: {
-    //signIn: "/auth/signin", // display signin buttons
+    signIn: "/auth/signin2", // display signin buttons
     signOut: "/auth/signout", // display a form with signout button
     error: "/auth/error", // Error code passed in query string as ?error=
-    verifyRequest: "/auth/verify-request", // (used for check email message)
+    // verifyRequest: "/auth/verify-request", // (used for check email message)
     newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   debug: false, //  process.env.DEBUG
